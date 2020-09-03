@@ -1,0 +1,17 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: route-reencrypt
+  labels:
+    app: route-example
+spec:
+  to:
+    kind: Service
+    name: route-example
+    weight: 100
+  port:
+    targetPort: https
+  tls:
+    termination: Reencrypt
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

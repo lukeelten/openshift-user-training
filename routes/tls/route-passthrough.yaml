@@ -1,0 +1,17 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: route-passthrough
+  labels:
+    app: route-example
+spec:
+  to:
+    kind: Service
+    name: route-example
+    weight: 100
+  port:
+    targetPort: https
+  tls:
+    termination: Passthrough
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

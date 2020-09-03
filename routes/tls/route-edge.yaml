@@ -1,0 +1,17 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: route-edge
+  labels:
+    app: route-example
+spec:
+  to:
+    kind: Service
+    name: route-example
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: Edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
