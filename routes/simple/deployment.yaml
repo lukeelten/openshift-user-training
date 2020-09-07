@@ -33,4 +33,3 @@ spec:
           volumeMounts:
           - name: certs
             mountPath: /certs
-
