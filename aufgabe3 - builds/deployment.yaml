@@ -1,0 +1,23 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: imagestream-test
+  labels:
+    app: imagestream-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: imagestream-test
+  template:
+    metadata:
+      labels:
+        app: imagestream-test
+    spec:
+      containers:
+        - name: ubi
+          imagePullPolicy: Always
+          image: ubi:8
+          args:
+            - sleep
+            - infinity
