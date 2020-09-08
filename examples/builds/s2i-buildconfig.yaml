@@ -1,0 +1,32 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: s2i-build
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 's2i-build:latest'
+  resources: {}
+  successfulBuildsHistoryLimit: 1
+  failedBuildsHistoryLimit: 2
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: 'nodejs:latest'
+      env:
+        - name: NPM_MIRROR
+  postCommit:
+    script: npm test
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/sclorg/nodejs-ex.git'
+  triggers:
+    - type: ImageChange
+    - type: ConfigChange
+  runPolicy: Serial

@@ -1,0 +1,28 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: dockerfile-inline-build
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'dockerfile-inline-build:latest'
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    dockerfile: >
+      FROM centos:7
+
+      ENTRYPOINT [ '/bin/bash' ]
+      CMD [ 'sleep' , 'infinity' ]
+    type: Dockerfile
+  strategy:
+    dockerStrategy:
+      forcePull: true
+    type: Docker
+  successfulBuildsHistoryLimit: 1
+  failedBuildsHistoryLimit: 2
+  triggers:
+    - type: ConfigChange
