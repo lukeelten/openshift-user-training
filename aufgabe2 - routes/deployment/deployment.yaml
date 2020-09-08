@@ -1,0 +1,35 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: route-example
+  labels:
+    app: route-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: route-example
+  template:
+    metadata:
+      labels:
+        app: route-example
+    spec:
+      volumes:
+        - name: certs
+          secret:
+            secretName: route-example-certs
+            defaultMode: 420
+      containers:
+        - name: nginx
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+              name: https
+          imagePullPolicy: Always
+          image: quay.io/lukeelten/nginx-example:latest
+          volumeMounts:
+          - name: certs
+            mountPath: /certs
