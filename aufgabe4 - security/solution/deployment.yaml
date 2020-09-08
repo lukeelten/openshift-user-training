@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: playground-solution
+  labels:
+    app: playground-solution
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: playground-solution
+  template:
+    metadata:
+      labels:
+        app: playground-solution
+    spec:
+      serviceAccountName: playground
+      securityContext:
+        runAsUser: 1002
+        runAsGroup: 1003
+        fsGroup: 1004
+        supplementalGroups:
+        - 1010
+        - 1011
+        - 1012
+      containers:
+        - name: ubi
+          imagePullPolicy: Always
+          image: registry.access.redhat.com/ubi8/ubi:latest
+          command:
+          - /bin/bash
+          args:
+            - -c
+            - 'id; sleep infinity'
+          volumeMounts:
+            - name: fs
+              mountPath: /test
+      volumes:
+      - name: fs
+        emptyDir: {}

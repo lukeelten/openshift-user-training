@@ -1,0 +1,26 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: playground
+  labels:
+    app: playground
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: playground
+  template:
+    metadata:
+      labels:
+        app: playground
+    spec:
+      serviceAccount: playground
+      containers:
+        - name: ubi
+          imagePullPolicy: Always
+          image: registry.access.redhat.com/ubi8/ubi:latest
+          command:
+          - /bin/bash
+          args:
+            - -c
+            - 'id; sleep infinity'
