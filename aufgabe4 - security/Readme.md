@@ -40,7 +40,7 @@ Aufgabe: <br>
 ## Starte ein neues Deployment mit einem Apache Container
 
 ```bash
-oc new-app library/httpd:stable
+oc new-app library/httpd:latest
 ```
 
 Untersuche warum der Container nicht startet.
